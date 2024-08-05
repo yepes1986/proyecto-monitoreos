@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios con Contraseñas Antiguas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Usuarios con Contraseñas que no se han cambiado en los últimos 49 días</h1>
+        <input type="text" id="searchInput" class="form-control mb-2" placeholder="Buscar por cuenta o nombre">
+        <button id="searchButton" class="btn btn-primary mb-2">Buscar</button>
+        <button id="loadButton" class="btn btn-secondary mb-2">Cargar Usuarios</button>
+        <a href="/" class="btn btn-info mb-2">Volver a la Página Principal</a>
+        <a href="/generate-excel" class="btn btn-success mb-2">Generar y Descargar Excel</a>
+        <div id="userList" class="mt-3"></div>
+    </div>
+
+    <script>
+        let usersData = [];
+
+        function convertDateFormat(dateString) {
+            // Extrae la parte numérica usando una expresión regular
+            const timestamp = parseInt(dateString.match(/\d+/)[0], 10);
+            return new Date(timestamp);
+        }
+
+        document.getElementById('loadButton').addEventListener('click', () => {
+            fetch('/users')
+                .then(response => response.json())
+                .then(data => {
+                    usersData = data;
+                    displayUsers(data);
+                })
+                .catch(error => console.error('Error al cargar los usuarios:', error));
+        });
+
+        document.getElementById('searchButton').addEventListener('click', () => {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredUsers = usersData.filter(user => 
+                user.SamAccountName.toLowerCase().includes(query)
+            );
+            if (filteredUsers.length === 0) {
+                document.getElementById('userList').innerHTML = '<p>No se encontraron usuarios.</p>';
+            } else {
+                displaySingleUser(filteredUsers[0]);
+            }
+        });
+/**
+        function displayUsers(users) {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '<ul class="list-group">' + users.map(user => `
+                <li class="list-group-item">
+                    <strong>Nombre:</strong> ${user.DisplayName}<br>
+                    <strong>Email:</strong> ${user.EmailAddress}<br>
+                    <strong>Habilitado:</strong> ${user.Enabled ? 'Sí' : 'No'}<br>
+                    <strong>Último Cambio de Contraseña:</strong> ${convertDateFormat(user.PasswordLastSet).toLocaleDateString()}<br>
+                    <strong>Contraseña Nunca Expira:</strong> ${user.PasswordNeverExpires ? 'Sí' : 'No'}<br>
+                    <strong>Cuenta:</strong> ${user.SamAccountName}
+                </li>
+            `).join('') + '</ul>';
+        }
+*/
+        function displaySingleUser(user) {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = `
+                <div class="list-group-item">
+                    <strong>Nombre:</strong> ${user.DisplayName}<br>
+                    <strong>Email:</strong> ${user.EmailAddress}<br>
+                    <strong>Habilitado:</strong> ${user.Enabled ? 'Sí' : 'No'}<br>
+                    <strong>Último Cambio de Contraseña:</strong> ${convertDateFormat(user.PasswordLastSet).toLocaleDateString()}<br>
+                    <strong>Contraseña Nunca Expira:</strong> ${user.PasswordNeverExpires ? 'Sí' : 'No'}<br>
+                    <strong>Cuenta:</strong> ${user.SamAccountName}
+                </div>`;
+        }
+    </script>
+</body>
+</html>
