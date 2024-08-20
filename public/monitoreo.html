@@ -9,21 +9,23 @@
     <link rel="icon" href="/images/Favicon.png" type="image/x-icon">
 </head>
 <body>
-    <header class="d-flex align-items-center header shadow-lg p-0.25 mb-5 bg-white rounded"">
-        <img src="/images/Logo.jpg" class="img-fluid w-25 h-auto alt="Logo">  
+    <header class="d-flex align-items-center justify-content-between header shadow-lg p-0.25 mb-5 bg-white rounded">
+        <img src="/images/Logo.jpg" alt="Logo">  
+        <h1 >Monitoreo de Usuarios</h1>
         <nav>
-            <ul>
+            <ul class="d-flex align-items-center">
                 <li><a href="index.html" class="logout-button">Cerrar sesión</a></li>
             </ul>
         </nav>  
     </header>
-        <div class="ml-2 text-center">
-            <h1>Monitoreo de Usuarios Cambio de Contraseña 49 días</h1>
-        </div>
+    <div class="ml-2 text-center">
+        <h1>Cambio de Contraseña 49 días</h1>
+    </div>
 
-        <div class="containertwo">
-        <img src="/images/Banner.jpg" class="img-fluid d-block mx-auto" style="width: 60%; height: auto; padding-top: 20px; padding-bottom: 35px;" alt=banner">
-        </div>
+    <div class="containertwo">
+        <img src="/images/Banner.jpg" class="img-fluid d-block mx-auto" style="width: 60%; height: auto; padding-top: 20px; padding-bottom: 35px;" alt="banner">
+    </div>
+
     <div class="container" style="width: 60%; margin: 0 auto;">
         <input type="text" id="searchInput" class="form-control mb-2" placeholder="Buscar por Usuario Logon">
         <button id="searchButton" class="btn btn-primary mb-2">Buscar</button>
@@ -78,6 +80,22 @@
     </script>
 </body>
 <style>
+    header {
+    padding: 10px;
+}
+
+header img {
+    max-width: 20%; /* Ajusta el tamaño del logo según sea necesario */
+    height: auto;
+}
+
+header h1 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #000;
+    margin-right: 100px;
+}
+
 header nav ul {
     list-style: none;
     margin: 0;
@@ -86,7 +104,7 @@ header nav ul {
 }
 
 header nav ul li {
-    margin-left: 50.5rem;
+    margin-left: auto;
 }
 
 header nav ul li a {
@@ -102,10 +120,13 @@ header nav ul li a.logout-button {
     border-radius: 5px;
     text-align: center;
     display: inline-block;
+    text-decoration: none; /* Elimina la línea debajo del texto */
+    transition: background-color 0.3s ease; /* Añade una transición suave */
 }
 
 header nav ul li a.logout-button:hover {
     background-color: #cc0000;
 }
+
 </style>
 </html>
