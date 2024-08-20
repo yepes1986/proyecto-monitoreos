@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuarios con Contraseñas Antiguas</title>
+    <title>Inicio de Sesión</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="/images/Favicon.png" type="image/x-icon">
 </head>
@@ -14,12 +14,12 @@
         </div>
         <form id="login-form">
             <div class="form-group">
-                <label for="branch">Usuario</la bel>
+                <label for="branch">Usuario</label>
                 <select id="branch" name="branch" required>
                     <option value="" disabled selected>Selecciona un Usuario</option>
-                    <option value="Sucursal 1">Javier Arias Yepes</option>
-                    <option value="Sucursal 2">Mario Fernando Fernandez</option>
-                    <!-- Agregar más sucursales aquí -->
+                    <option value="Javier Arias Yepes">Javier Arias Yepes</option>
+                    <option value="Mario Fernando Fernandez">Mario Fernando Fernandez</option>
+                    <!-- Agregar más usuarios aquí -->
                 </select>
             </div>
             <div class="form-group">
@@ -34,58 +34,6 @@
     </footer>
     <script src="scripts.js"></script>
 </body>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Manejo del formulario de inicio de sesión
-    const loginForm = document.getElementById('login-form');
-
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const branch = document.getElementById('branch').value;
-            const password = document.getElementById('password').value;
-            const fixedPassword = 'Seguridad2024*';
-
-            if (password === fixedPassword) {
-                localStorage.setItem('branch', branch);
-                window.location.href = `monitoreo.html`;
-            } else {
-                alert('Contraseña incorrecta');
-            }
-        });
-    }
-
-    // Manejo del menú lateral
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    const container = document.querySelector('.container');
-    const main = document.querySelector('main');
-
-    if (menuToggle && sidebar && container && main) {
-        menuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('open');
-            menuToggle.classList.toggle('open');
-        });
-
-        main.addEventListener('click', function() {
-            if (sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-                menuToggle.classList.remove('open');
-            }
-        });
-
-        document.body.addEventListener('click', function(event) {
-            if (sidebar.classList.contains('open') && !sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
-                sidebar.classList.remove('open');
-                menuToggle.classList.remove('open');
-            }
-        });
-    }
-});
-</script>
-
 <style> 
 body {
     font-family: Arial, sans-serif;
@@ -153,8 +101,9 @@ button {
 }
 
 button:hover {
-    background-color: #df342a;
+    background-color: #bf2c1b;
 }
+
 footer {
     background-color: #df342a;
     color: white;
@@ -165,4 +114,26 @@ footer {
     bottom: 0;
 }
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('login-form');
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const branch = document.getElementById('branch').value;
+            const password = document.getElementById('password').value;
+            const fixedPassword = 'Seguridad2024*';
+
+            if (password === fixedPassword) {
+                localStorage.setItem('branch', branch);
+                window.location.href = 'menu.html';
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        });
+    }
+});
+</script>
 </html>
