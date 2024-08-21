@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios con Contraseñas Antiguas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="Favicon.png" type="image/x-icon">
+</head>
+<body>
+    <header class="d-flex align-items-center justify-content-between header shadow-lg p-0.25 mb-5 bg-white rounded">
+        <img src="/images/Logo.jpg" alt="Logo">  
+        <h1 >Monitoreo de Usuarios</h1>
+        <nav>
+            <ul class="d-flex align-items-center">
+                <li><a href="#" class="logout-button" onclick="confirmLogout()">Cerrar sesión</a></li>
+            </ul>
+            
+            <script>
+                function confirmLogout() {
+                    // Mostrar ventana emergente
+                    var userConfirmation = confirm("¿Estás seguro de que deseas salir de la página actual y volver a la principal?");
+                    
+                    // Si el usuario acepta
+                    if (userConfirmation) {
+                        // Redirigir a la página principal
+                        window.location.href = "index.html"; // Cambia esto por la URL de tu página principal
+                    }
+                }
+            </script>
+            
+        </nav>  
+    </header>
+    <div class="ml-2 text-center">
+        <h1>Cambio de Contraseña 49 días</h1>
+    </div>
+
+    <div class="containertwo">
+        <img src="/images/Bannerpassword.png" class="img-fluid d-block mx-auto" style="width: 60%; height: auto; padding-top: 20px; padding-bottom: 35px;" alt="banner">
+    </div>
+
+    <div class="container" style="width: 60%; margin: 0 auto;">
+        <input type="text" id="searchInput" class="form-control mb-2" placeholder="Buscar por Usuario Logon">
+        <button id="searchButton" class="btn btn-primary mb-2">Buscar</button>
+        <button id="loadButton" class="btn btn-secondary mb-2">Cargar Usuarios para la búsqueda</button>
+        <a href="menu.html" class="btn btn-info mb-2">Volver a la Página Principal</a>
+        <a href="/generate-excel" class="btn btn-success mb-2">Generar y Descargar Excel</a>
+        <div id="userList" class="mt-3"></div>
+    </div>
+
+    <script>
+        let usersData = [];
+
+        function convertDateFormat(dateString) {
+            const timestamp = parseInt(dateString.match(/\d+/)[0], 10);
+            return new Date(timestamp);
+        }
+
+        document.getElementById('loadButton').addEventListener('click', () => {
+            fetch('/users')
+                .then(response => response.json())
+                .then(data => {
+                    usersData = data;
+                    displayUsers(data);
+                })
+                .catch(error => console.error('Error al cargar los usuarios:', error));
+        });
+
+        document.getElementById('searchButton').addEventListener('click', () => {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredUsers = usersData.filter(user => 
+                user.SamAccountName.toLowerCase().includes(query)
+            );
+            if (filteredUsers.length === 0) {
+                document.getElementById('userList').innerHTML = '<p>No se encontraron usuarios.</p>';
+            } else {
+                displaySingleUser(filteredUsers[0]);
+            }
+        });
+
+        function displaySingleUser(user) {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = `
+                <div class="list-group-item">
+                    <strong>Nombre:</strong> ${user.DisplayName}<br>
+                    <strong>Email:</strong> ${user.EmailAddress}<br>
+                    <strong>Habilitado:</strong> ${user.Enabled ? 'Sí' : 'No'}<br>
+                    <strong>Último Cambio de Contraseña:</strong> ${convertDateFormat(user.PasswordLastSet).toLocaleDateString()}<br>
+                    <strong>Contraseña Nunca Expira:</strong> ${user.PasswordNeverExpires ? 'Sí' : 'No'}<br>
+                    <strong>Cuenta:</strong> ${user.SamAccountName}
+                </div>`;
+        }
+    </script>
+</body>
+<style>
+    header {
+    padding: 10px;
+}
+
+header img {
+    max-width: 20%; /* Ajusta el tamaño del logo según sea necesario */
+    height: auto;
+}
+
+header h1 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #000;
+    margin-right: 150px;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: auto;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+header nav ul li a.logout-button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none; /* Elimina la línea debajo del texto */
+    transition: background-color 0.3s ease; /* Añade una transición suave */
+}
+
+header nav ul li a.logout-button:hover {
+    background-color: #cc0000;
+}
+
+</style>
+</html>

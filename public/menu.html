@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+    <link rel="stylesheet" href="style.css"> <!-- Asegúrate de que esta ruta sea correcta -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="/images/Favicon.png" type="image/x-icon">
+    <!-- Asegúrate de que este enlace sea accesible -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <header class="d-flex align-items-center justify-content-between header shadow-lg p-0.25 mb-5 bg-white rounded">
+        <img src="/images/Logo.jpg" alt="Logo">  
+        <h1>Monitoreo de Usuarios</h1>
+        <nav>
+            <ul class="d-flex align-items-center">
+                <li><a href="#" class="logout-button" onclick="confirmLogout()">Cerrar sesión</a></li>
+            </ul>
+            
+            <script>
+                function confirmLogout() {
+                    // Mostrar ventana emergente
+                    var userConfirmation = confirm("¿Estás seguro de que deseas salir de la página actual y volver a la principal?");
+                    
+                    // Si el usuario acepta
+                    if (userConfirmation) {
+                        // Redirigir a la página principal
+                        window.location.href = "index.html"; // Cambia esto por la URL de tu página principal
+                    }
+                }
+            </script>
+        </nav>  
+    </header>
+
+    <div class="container">
+        <div class="welcome-message">
+            <h2>Bienvenido, <span id="user-name"></span>!</h2>
+        </div>
+        <img src="/images/Banner.jpg" class="banner img-fluid d-block mx-auto" alt="banner">
+    </div>
+
+    <div class="container-buttons">
+        <h2>¿A quién quieres salvar hoy?</h2>
+        <a href="monitoreo.html" class="btn-custom">Cambio de Contraseña 49 días</a>
+        <a href="monitoreoretiros.html" class="btn-custom">Monitoreo Retiros SAP</a>
+        <a href="menu.html" class="btn-custom">Ciberseguridad</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Muestra el mensaje de bienvenida
+            const userName = localStorage.getItem('branch');
+            const userNameElement = document.getElementById('user-name');
+            if (userName) {
+                userNameElement.textContent = userName;
+            } else {
+                userNameElement.textContent = 'Invitado';
+            }
+
+            // Muestra confetti cuando la página se carga
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                console.error('Confetti library is not loaded.');
+            }
+        });
+    </script>
+
+    <style>
+        header {
+            padding: 10px;
+        }
+
+        header img {
+            max-width: 20%; /* Ajusta el tamaño del logo según sea necesario */
+            height: auto;
+        }
+
+        header h1 {
+            font-size: 26px;
+            font-weight: bold;
+            color: #000;
+            margin-right: 150px;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin-left: auto;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        header nav ul li a.logout-button {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        header nav ul li a.logout-button:hover {
+            background-color: #cc0000;
+        }
+
+        .banner {
+            width: 60%;
+            height: auto;
+            padding-top: 20px;
+            padding-bottom: 35px;
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .welcome-message h2 {
+            font-size: 24px;
+            color: #000;
+        }
+
+        .container-buttons {
+            width: 60%;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .container-buttons h2 {
+            font-size: 24px;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .container-buttons .btn-custom {
+            background-color: #080873;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none; /* Asegura que no haya línea debajo del texto */
+        }
+
+        .container-buttons .btn-custom:hover {
+            background-color: #7b7bf0;
+        }
+    </style>
+</body>
+</html>
