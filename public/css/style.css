@@ -88,3 +88,8 @@ input[type="text"] {
 #backToTop:hover {
     background-color: #0056b3; /* Color de fondo en hover */
 }
+
+.ml-2.text-center h1 {
+    color: red; /* Cambia por el color que prefieras */
+}
+

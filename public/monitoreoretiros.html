@@ -35,43 +35,22 @@
     </header>
 
     <div class="container">
-        <div class="welcome-message">
-            <h2>Bienvenido, <span id="user-name"></span>!</h2>
+        <div class="ml-2 text-center">
+            <h1 style="color: #de2b2f;">Monitoreos de usuarios Retirados de la compañía</h1>
         </div>
-        <img src="/images/Banner.jpg" class="banner img-fluid d-block mx-auto" alt="banner">
+        
+        
+        
+        
+        <img src="/images/bannermonitoreoretiros.jpg" class="banner img-fluid d-block mx-auto" alt="banner">
     </div>
 
     <div class="container-buttons">
-        <h2>¿qué haremos hoy?</h2>
-        <a href="monitoreo.html" class="btn-custom">Cambio de Contraseña 49 días</a>
-        <a href="monitoreoretiros.html" class="btn-custom">Monitoreo Retiros</a>
-        <a href="menu.html" class="btn-custom">Monitoreo Absentismo</a>
+        <h2>¿como procedemos?</h2>
+        <a href="" class="btn-custom">Cambiar</a>
+        <a href="" class="btn-custom">Cambiar</a>
+        <a href="" class="btn-custom">Cambiar</a>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Muestra el mensaje de bienvenida
-            const userName = localStorage.getItem('branch');
-            const userNameElement = document.getElementById('user-name');
-            if (userName) {
-                userNameElement.textContent = userName;
-            } else {
-                userNameElement.textContent = 'Invitado';
-            }
-
-            // Muestra confetti cuando la página se carga
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { y: 0.6 }
-                });
-            } else {
-                console.error('Confetti library is not loaded.');
-            }
-        });
-    </script>
-
     <style>
         header {
             padding: 10px;

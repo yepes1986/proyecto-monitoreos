@@ -5,7 +5,7 @@ $currentDate = Get-Date
 $minDays = 49
 
 # Obtener todos los usuarios de Active Directory
-$users = Get-ADUser -Filter * -Properties DisplayName, EmailAddress, Enabled, PasswordLastSet, PasswordNeverExpires, SamAccountName
+$users = Get-ADUser -Filter * -Properties DisplayName, EmailAddress, Enabled, PasswordLastSet, PasswordNeverExpires, SamAccountName, Title, Description
 
 # Crear un objeto Excel
 $excel = New-Object -ComObject Excel.Application
@@ -21,16 +21,18 @@ $sheet.Cells.Item(1,4) = "Estado de la cuenta"
 $sheet.Cells.Item(1,5) = "Contrasena nunca expira"
 $sheet.Cells.Item(1,6) = "ultima contrasena cambiada"
 $sheet.Cells.Item(1,7) = "Dias desde el ultimo cambio de contrasena"
+$sheet.Cells.Item(1,8) = "Title"
+$sheet.Cells.Item(1,9) = "Description"
 
 $row = 2
 
 # Iterar sobre cada usuario
 foreach ($user in $users) {
     # Verificar si el usuario tiene una contraseña establecida
-    if ($null -ne $user.PasswordLastSet  ) {
+    if ($null -ne $user.PasswordLastSet) {
         # Calcular la diferencia de días entre la fecha actual y la última vez que se cambió la contraseña
         $daysSinceLastChange = ($currentDate - $user.PasswordLastSet).Days
-        
+
         # Verificar si la contraseña ha sido cambiada hace más de $minDays días
         if ($daysSinceLastChange -gt $minDays) {
             # Obtener el estado de la cuenta
@@ -50,6 +52,8 @@ foreach ($user in $users) {
             $sheet.Cells.Item($row,5) = $passwordNeverExpires
             $sheet.Cells.Item($row,6) = $user.PasswordLastSet
             $sheet.Cells.Item($row,7) = $daysSinceLastChange
+            $sheet.Cells.Item($row,8) = $user.Title  # Agregar el título
+            $sheet.Cells.Item($row,9) = $user.Description  # Agregar la descripción
 
             $row++
         }
@@ -64,3 +68,4 @@ $workbook.SaveAs($excelFilePath)
 $excel.Quit()
 
 Write-Output "Se ha generado el archivo Excel con los usuarios que llevan mas de $minDays dias sin cambiar su Password en la siguiente ruta: $excelFilePath"
+
